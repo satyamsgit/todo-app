@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import Header from "./components/Header";
+import Form from "./components/Form";
 import "./App.css";
+import ListItems from "./components/ListItems";
 const App = () => {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
@@ -30,29 +33,24 @@ const App = () => {
     setTodo(editTodo.todo);
     setEditId(id);
   };
+  const handleOnChange = (e) => {
+    setTodo(e.target.value);
+  };
   return (
     <div className="App">
       <div className="container">
-        <h1>My To-do List</h1>
-        <form className="form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={todo}
-            onChange={(e) => setTodo(e.target.value)}
-          />
-          <button type="submit">{editId ? "Edit" : "Add"}</button>
-        </form>
-        <ul className="todolist">
-          {todoList.map((item) => (
-            <li>
-              <span className="todotext" key={item.id}>
-                {item.todo}
-              </span>
-              <button onClick={() => handleEditItem(item.id)}>Edit</button>
-              <button onClick={() => handleDeleteItem(item.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <Header />
+        <Form
+          onSubmit={handleSubmit}
+          onChange={handleOnChange}
+          editId={editId}
+          todo={todo}
+        />
+        <ListItems
+          todoList={todoList}
+          handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
+        />
       </div>
     </div>
   );
